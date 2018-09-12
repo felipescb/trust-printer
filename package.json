@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "http": "0.0.0",
     "personality-text-summary": "^2.2.0",
     "serialport": "^7.0.2",
     "thermalprinter": "^0.3.8"
