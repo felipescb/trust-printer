@@ -3,7 +3,8 @@ const PersonalityTextSummaries = require('personality-text-summary');
 const Printer = require('thermalprinter');
 
 const serialPort = new SerialPort('/dev/tty.usbmodem1421', {
-      baudRate: 9600
+      baudRate: 9600,
+      databits: 10
     }),
 logo = 'cached_elsewhere.png',
 drinks = 'drinks.png',
