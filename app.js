@@ -3,7 +3,7 @@ const PersonalityTextSummaries = require('personality-text-summary');
 const Printer = require('thermalprinter');
 
 module.exports = function (data){
-	const serialPort = new SerialPort('/dev/tty.usbmodem1411', {
+	const serialPort = new SerialPort('/dev/tty.usbmodem1421', {
 			baudRate: 9600
 		}),
 		logo = 'cached.png';
