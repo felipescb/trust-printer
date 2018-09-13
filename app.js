@@ -2,11 +2,15 @@ const SerialPort = require("serialport");
 const PersonalityTextSummaries = require("personality-text-summary");
 const Printer = require("thermalprinter");
 
-module.exports = function(data) {
 
-	const serialPort = new SerialPort('/dev/tty.usbmodem1421', {
+
+module.exports = function(data, port) {
+	
+	console.log(data)
+
+	const serialPort = new SerialPort('/dev/ttyACM0', {
       baudRate: 9600
-    }),
+    });
 
 	const logo = "cached_elsewhere.png",
 		drinks = "drinks.png",
