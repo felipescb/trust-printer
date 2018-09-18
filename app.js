@@ -2,8 +2,6 @@ const SerialPort = require("serialport");
 const PersonalityTextSummaries = require("personality-text-summary");
 const Printer = require("thermalprinter");
 
-
-
 module.exports = function(data, port) {
 	
 	console.log(data)
@@ -61,7 +59,15 @@ module.exports = function(data, port) {
 
 	//fuck ...es6
 	function normalizeMarketString(string) {
-		var core = string.replace("Likely to ", "");
+		let removeString;
+		if (lang == "FR") {
+			removeString = "Susceptible"
+			string = string.fr_name;
+		} else {
+			removeString = "Likely to";
+			string = string.name;
+		}
+		var core = string.replace(removeString, "");
 		return core.charAt(0).toUpperCase() + core.slice(1);
 	}
 
@@ -97,6 +103,17 @@ module.exports = function(data, port) {
 	var personalityStrings = preparePersonality(data.raw.personality);
 
 	var market = prepareMarket(data.marketPreferences);
+
+	const i18n = { 
+	  likely: {
+	    EN: 'You are likely to: ',
+	    FR: 'Susceptible: ',
+	  },
+	  notLikely: {
+	    EN : 'You are not likely to: ',
+	    FR : 'Susceptible pas: '
+	  }
+	}
 
 	serialPort.on("open", () => {
 		var printer = new Printer(serialPort);
@@ -159,16 +176,16 @@ module.exports = function(data, port) {
 				.small(true)
 				.bold(true)
 				.inverse(true)
-				.printLine("You are likely to: ")
+				.printLine(i18n.likely[lang])
 				.inverse(false)
 				.big(false)
 				.bold(false)
 				.small(true)
-				.printLine("- " + normalizeMarketString(market.likely[0].name))
-				.printLine("- " + normalizeMarketString(market.likely[1].name))
-				.printLine("- " + normalizeMarketString(market.likely[2].name))
-				.printLine("- " + normalizeMarketString(market.likely[3].name))
-				.printLine("- " + normalizeMarketString(market.likely[4].name))
+				.printLine("- " + normalizeMarketString(market.likely[0]))
+				.printLine("- " + normalizeMarketString(market.likely[1]))
+				.printLine("- " + normalizeMarketString(market.likely[2]))
+				.printLine("- " + normalizeMarketString(market.likely[3]))
+				.printLine("- " + normalizeMarketString(market.likely[4]))
 				.big(false)
 				.left()
 				.printLine("")
@@ -177,25 +194,25 @@ module.exports = function(data, port) {
 				.small(true)
 				.bold(true)
 				.inverse(true)
-				.printLine("You are not likely to: ")
+				.printLine(i18n.notLikely[lang])
 				.inverse(false)
 				.big(false)
 				.bold(false)
 				.small(true)
 				.printLine(
-					"- " + normalizeMarketString(market.notLikely[0].name)
+					"- " + normalizeMarketString(market.notLikely[0])
 				)
 				.printLine(
-					"- " + normalizeMarketString(market.notLikely[1].name)
+					"- " + normalizeMarketString(market.notLikely[1])
 				)
 				.printLine(
-					"- " + normalizeMarketString(market.notLikely[2].name)
+					"- " + normalizeMarketString(market.notLikely[2])
 				)
 				.printLine(
-					"- " + normalizeMarketString(market.notLikely[3].name)
+					"- " + normalizeMarketString(market.notLikely[3])
 				)
 				.printLine(
-					"- " + normalizeMarketString(market.notLikely[4].name)
+					"- " + normalizeMarketString(market.notLikely[4])
 				)
 				.left()
 				.printLine("")
