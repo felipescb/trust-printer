@@ -100,7 +100,7 @@ module.exports = function(data, port) {
 	});
 	var textSummary = v3EnglishTextSummaries.getSummary(data.raw);
 
-	var personalityStrings = preparePersonality(data.raw.personality);
+	var personalityStrings = preparePersonality(data.facets);
 
 	var market = prepareMarket(data.marketPreferences);
 
