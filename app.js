@@ -8,6 +8,8 @@ module.exports = function(data, port) {
 	
 	console.log(data)
 
+	const lang = data.lang.toUpperCase();
+
 	const serialPort = new SerialPort('/dev/ttyACM0', {
       baudRate: 9600
     });
@@ -26,8 +28,9 @@ module.exports = function(data, port) {
 
 	function preparePersonality(personality) {
 		return personality.map(p => {
+			const name = ((lang == "FR") ? p.fr_name : p.name);
 			return (
-				p.name +
+				name +
 				" - " +
 				String(p.percentile * 100).substring(0, 4) +
 				"%"
