@@ -206,6 +206,7 @@ module.exports = function(data, port) {
 				.printLine("")
 				.print(() => {
 					console.log("The end");
+					serialPort.close();
 				});
 		});
 	});
