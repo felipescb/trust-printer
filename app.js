@@ -30,7 +30,7 @@ module.exports = function(data, port) {
 			return (
 				name +
 				" - " +
-				String(p.percentile * 100).substring(0, 4) +
+				String(p.score * 100).substring(0, 4) +
 				"%"
 			);
 		});
