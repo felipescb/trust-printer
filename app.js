@@ -12,9 +12,9 @@ module.exports = function(data, port) {
       baudRate: 9600
     });
 
-	const logo = "cached_elsewhere.png",
-		drinks = "drinks.png",
-		sodexo = "sodexo.png";
+	 const logo = "cached_elsewhere.png",
+        drinks = "drinks_new.png",
+        sodexo = "sodexo.png";
 
 	function prepareLikes(likes) {
 		return likes
