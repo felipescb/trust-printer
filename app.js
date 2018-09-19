@@ -162,7 +162,7 @@ module.exports = function(data, port) {
 				.printLine("to donate it to the installation.")
 				.center()
 				.printLine("")
-				.printImage(sodexo)
+				// .printImage(sodexo)
 				.printLine("Thank you for trusting us.")
 				.left()
 				.small(false)
