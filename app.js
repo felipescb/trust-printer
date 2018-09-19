@@ -104,7 +104,9 @@ module.exports = function(data, port) {
 
 	var market = prepareMarket(data.marketPreferences);
 
-	const i18n = { 
+	var cached = data.cached;
+
+    const i18n = { 
       likely: {
         EN: 'You are likely to: ',
         FR: 'Susceptible: ',
@@ -124,7 +126,15 @@ module.exports = function(data, port) {
       freeDrink03 : {
         EN : 'to donate it to the installation.',
         FR : 'de le donner à l’installation.'
-      }
+      },
+      coreTraits : {
+        EN : 'Core Traits: ',
+        FR : 'Traits de caractère dominants: '
+      },
+      extreme : {
+        EN : 'Extreme Characteristics: ',
+        FR : 'Caractéristiques extremes: '
+      },
     }
 
     serialPort.on("open", () => {
@@ -145,19 +155,52 @@ module.exports = function(data, port) {
                 .bold(false)
                 .big(true)
                 .inverse(true)
-                .printLine(data.identifier)
+                .printLine(" " + data.identifier + " ")
                 .inverse(false)
+                .printLine(" ")
+                .inverse(true)
                 .big(false)
-                .printLine("")
-                .printLine(personalityStrings[0])
-                .printLine(personalityStrings[1])
-                .printLine(personalityStrings[2])
-                .printLine(personalityStrings[3])
-                .printLine(personalityStrings[4])
+                .left()
+                .printLine(i18n.coreTraits[lang])
+                .left()
+                .small(true)
+                .inverse(false)
+                .printLine("- " + personalityStrings[0])
+                .printLine("- " + personalityStrings[1])
+                .printLine("- " + personalityStrings[2])
+                .printLine("- " + personalityStrings[3])
+                .printLine("- " + personalityStrings[4])
+                
                 .printLine("   ")
                 .horizontalLine(33)
-                //.printLine("   ")
+                .printLine("   ")
 
+                .big(false)
+                .small(true)
+                .bold(true)
+                .left()
+                .inverse(true)
+                .printLine(i18n.extreme[lang])
+                .inverse(false)
+                .big(false)
+                .bold(false)
+                .small(true)
+                .left()
+                .printLine("- " +  cached[0].phrase + " - " + String(cached[0].score * 100).substring(0, 4) + "%")
+                .printLine("- " + cached[1].phrase + " - " + String(cached[1].score * 100).substring(0, 4) + "%")
+                .printLine("- " + cached[2].phrase + " - " + String(cached[2].score * 100).substring(0, 4) + "%")
+                .printLine("- " + cached[3].phrase + " - " + String(cached[3].score * 100).substring(0, 4) + "%")
+                .printLine("- " + cached[4].phrase + " - " + String(cached[4].score * 100).substring(0, 4) + "%")
+                .printLine("- " + cached[5].phrase + " - " + String(cached[5].score * 100).substring(0, 4) + "%")
+                .printLine("- " + cached[6].phrase + " - " + String(cached[6].score * 100).substring(0, 4) + "%")
+                .printLine("- " + cached[7].phrase + " - " + String(cached[7].score * 100).substring(0, 4) + "%")
+                .printLine("- " + cached[8].phrase + " - " + String(cached[8].score * 100).substring(0, 4) + "%")
+                .printLine("- " + cached[9].phrase + " - " + String(cached[9].score * 100).substring(0, 4) + "%")
+
+                .printLine(" ")
+                .horizontalLine(33)
+                .printLine("   ")
+                                 
                 .left()
                 .big(false)
                 .small(true)
