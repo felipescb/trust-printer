@@ -93,6 +93,14 @@ console.log(data)
         };
     }
 
+    function prepareCorePhrase(i) {
+        if (lang == "FR") {
+            return "- " +  i.fr_phrase + " - " + String(i.score * 100).substring(0, 4) + "%"
+        } else {
+           return "- " +  i.phrase + " - " + String(i.score * 100).substring(0, 4) + "%"
+        }
+    }
+
     var v3EnglishTextSummaries = new PersonalityTextSummaries({
         locale: "en",
         version: "v3"
@@ -185,21 +193,21 @@ console.log(data)
                 .bold(false)
                 .small(true)
                 .left()
-                .printLine("- " +  cached[0].phrase + " - " + String(cached[0].score * 100).substring(0, 4) + "%")
-                .printLine("- " + cached[1].phrase + " - " + String(cached[1].score * 100).substring(0, 4) + "%")
-                .printLine("- " + cached[2].phrase + " - " + String(cached[2].score * 100).substring(0, 4) + "%")
-                .printLine("- " + cached[3].phrase + " - " + String(cached[3].score * 100).substring(0, 4) + "%")
-                .printLine("- " + cached[4].phrase + " - " + String(cached[4].score * 100).substring(0, 4) + "%")
-                .printLine("- " + cached[5].phrase + " - " + String(cached[5].score * 100).substring(0, 4) + "%")
-                .printLine("- " + cached[6].phrase + " - " + String(cached[6].score * 100).substring(0, 4) + "%")
-                .printLine("- " + cached[7].phrase + " - " + String(cached[7].score * 100).substring(0, 4) + "%")
-                .printLine("- " + cached[8].phrase + " - " + String(cached[8].score * 100).substring(0, 4) + "%")
-                .printLine("- " + cached[9].phrase + " - " + String(cached[9].score * 100).substring(0, 4) + "%")
+                .printLine(prepareCorePhrase(cached[0]))
+                .printLine(prepareCorePhrase(cached[1]))
+                .printLine(prepareCorePhrase(cached[2]))
+                .printLine(prepareCorePhrase(cached[3]))
+                .printLine(prepareCorePhrase(cached[4]))
+                .printLine(prepareCorePhrase(cached[5]))
+                .printLine(prepareCorePhrase(cached[6]))
+                .printLine(prepareCorePhrase(cached[7]))
+                .printLine(prepareCorePhrase(cached[8]))
+                .printLine(prepareCorePhrase(cached[9]))
 
                 .printLine(" ")
                 .horizontalLine(33)
                 .printLine("   ")
-                                 
+
                 .left()
                 .big(false)
                 .small(true)
