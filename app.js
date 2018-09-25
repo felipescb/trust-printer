@@ -285,6 +285,11 @@ module.exports = function(data, port) {
                 .printLine(" ")
                 .printLine(" ")
                 .printLine(" ")
+                .center()
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
 				.print(() => {
 					console.log("The end");
 					serialPort.close();
