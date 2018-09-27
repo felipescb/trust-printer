@@ -96,9 +96,9 @@ module.exports = function(data, port) {
 
     function prepareCorePhrase(i) {
         if (lang == "FR") {
-            return "- " +  i.fr_phrase + " - " + String(i.score * 100).substring(0, 4) + "%"
+            return "- " +  i.facet_normalized_fr + " - " +  i.fr_phrase + " - " + String(i.score * 100).substring(0, 4) + "%"
         } else {
-           return "- " +  i.phrase + " - " + String(i.score * 100).substring(0, 4) + "%"
+           return "- " +  i.facet_normalized + " - " + +  i.phrase + " - " + String(i.score * 100).substring(0, 4) + "%"
         }
     }
 
@@ -154,11 +154,11 @@ module.exports = function(data, port) {
                 .inverse(false)
                 .big(false)
                 .left()
-                .printLine("")
+                .printLine(" www.cached.id ")
                 .inverse(false)
                 .big(false)
                 .left()
-                .printLine("")
+                .printLine(" ")
                 .center()
                 .bold(false)
                 .big(true)
