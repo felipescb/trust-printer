@@ -9,10 +9,11 @@ module.exports = function(data, port) {
 	const lang = data.lang.toUpperCase();
 
 	const serialPort = new SerialPort('/dev/ttyACM0', {
-      baudRate: 9600
+      // baudRate: 9600,
+      baudRate: 19200,
     });
 
-	 const logo = "cached_elsewhere.png",
+	 const logo = "cachedRRR.png",
         drinks = "drinks_new.png",
         sodexo = "sodexo.png";
 
@@ -146,11 +147,76 @@ module.exports = function(data, port) {
     }
 
     serialPort.on("open", () => {
-        var printer = new Printer(serialPort);
+        var printer = new Printer(serialPort, { 
+            // maxPrintingDots: 8,
+            // heatingTime: 100,
+            // heatingInterval: 3,
+            // commandDelay: 3
+            maxPrintingDots: 6,
+            heatingTime: 100,
+            heatingInterval: 3,
+            commandDelay: 10
+        });
         printer.on("ready", () => {
             console.log("Begin");
             printer
+                .left()
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
                 .printImage(logo)
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .horizontalLine(33)
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
                 .inverse(false)
                 .big(false)
                 .left()
@@ -259,21 +325,24 @@ module.exports = function(data, port) {
 
                 .big(false)
                 .left()
-                .printImage(drinks)
-                .inverse(false)
-                .big(false)
-                .left()
-                .printLine("")
-                .big(false)
-                .inverse(false)
-                .left()
-                .small(true)
-                .printLine(i18n.freeDrink01[lang])
-                .printLine(i18n.freeDrink02[lang])
-                .printLine(i18n.freeDrink03[lang])
-                .center()
-                .printLine("")
+                 //.printImage(drinks)
+                
+                // .inverse(false)
+                // .big(false)
+                // .left()
+                // .printLine("")
+                // .big(false)
+                // .inverse(false)
+                // .left()
+                // .small(true)
+                // .printLine(i18n.freeDrink01[lang])
+                // .printLine(i18n.freeDrink02[lang])
+                // .printLine(i18n.freeDrink03[lang])
+                //.center()
+                //.printLine("")
                 // .printImage(sodexo)
+                .small(true)
+                .center()
                 .printLine("Thank you for trusting us.")
                 .left()
                 .small(false)

@@ -3,15 +3,13 @@ const PersonalityTextSummaries = require('personality-text-summary');
 const Printer = require('thermalprinter');
 const data = require('./demo_data.json');
 
-console.log(data)
-
     const lang = data.lang.toUpperCase();
 
     const serialPort = new SerialPort('/dev/tty.usbmodem1461', {
-      baudRate: 9600
+      baudRate: 19200,
     });
 
-    const logo = "cached_elsewhere.png",
+    const logo = "cachedRRR.png",
         drinks = "drinks_new.png",
         sodexo = "sodexo.png";
 
@@ -145,11 +143,76 @@ console.log(data)
     }
 
     serialPort.on("open", () => {
-        var printer = new Printer(serialPort);
+        var printer = new Printer(serialPort, { 
+            // maxPrintingDots: 8,
+            // heatingTime: 100,
+            // heatingInterval: 3,
+            // commandDelay: 3
+            maxPrintingDots: 6,
+            heatingTime: 100,
+            heatingInterval: 3,
+            commandDelay: 10
+        });
         printer.on("ready", () => {
             console.log("Begin");
             printer
+                .left()
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
                 .printImage(logo)
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .horizontalLine(33)
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
+                .printLine(" ")
                 .inverse(false)
                 .big(false)
                 .left()
@@ -191,6 +254,7 @@ console.log(data)
                 .inverse(false)
                 .big(false)
                 .bold(false)
+
                 .small(true)
                 .left()
                 .printLine(prepareCorePhrase(cached[0]))
@@ -213,11 +277,12 @@ console.log(data)
                 .small(true)
                 .bold(true)
                 .inverse(true)
-                .printLine(i18n.likely[lang])
+                 .printLine(i18n.likely[lang])
                 .inverse(false)
                 .big(false)
                 .bold(false)
                 .small(true)
+                .left()
                 .printLine("- " + normalizeMarketString(market.likely[0]))
                 .printLine("- " + normalizeMarketString(market.likely[1]))
                 .printLine("- " + normalizeMarketString(market.likely[2]))
@@ -259,29 +324,32 @@ console.log(data)
 
                 .big(false)
                 .left()
-                .printImage(drinks)
-                .inverse(false)
-                .big(false)
-                .left()
-                .printLine("")
-                .big(false)
-                .inverse(false)
-                .left()
-                .small(true)
-                .printLine(i18n.freeDrink01[lang])
-                .printLine(i18n.freeDrink02[lang])
-                .printLine(i18n.freeDrink03[lang])
-                .center()
-                .printLine("")
+                //.printImage(drinks)
+                
+                // .inverse(false)
+                // .big(false)
+                // .left()
+                // .printLine("")
+                // .big(false)
+                // .inverse(false)
+                // .left()
+                // .small(true)
+                // .printLine(i18n.freeDrink01[lang])
+                // .printLine(i18n.freeDrink02[lang])
+                // .printLine(i18n.freeDrink03[lang])
+                //.center()
+                //.printLine("")
                 // .printImage(sodexo)
+                .small(true)
+                .center()
                 .printLine("Thank you for trusting us.")
-                .left()
+                //.left()
                 .small(false)
                 .big(false)
                 .printLine(" ")
                 //.horizontalLine(33)
-                .printLine(" ")
-                .printLine(" ")
+                //.printLine(" ")
+                //.printLine(" ")
                 .printLine(" ")
                 .printLine(" ")
                 .printLine(" ")
