@@ -1,29 +1,37 @@
+const mocked = process.env.MOCK !== undefined;
+
 const SerialPort = require("serialport");
-const Printer = require("thermalprinter");
+const Printer = require("thermalprinter"); 
+const PrinterMock = require('./printer-mock.js');
 const i18n = require('./i18n');
 
 const SERIAL_PORT = '/dev/tty.usbserial-1410';
 
 
 module.exports = function({ lang, identifier, personalityStrings, extremes, market }) {
-    const serialPort = new SerialPort(SERIAL_PORT, {
-        // baudRate: 9600,
-        baudRate: 19200,
-    });
-	const logo = "./cachedRRR.png";
-
-    serialPort.on("open", () => {
-        var printer = new Printer(serialPort, { 
-            // maxPrintingDots: 8,
-            // heatingTime: 100,
-            // heatingInterval: 3,
-            // commandDelay: 3
-            maxPrintingDots: 6,
-            heatingTime: 100,
-            heatingInterval: 3,
-            commandDelay: 10
+    const logo = "./cachedRRR.png";
+    let serialPort, printer;
+    if(mocked){
+        printer = new PrinterMock()
+        initiatePrint();
+    }
+    else{
+        serialPort = new SerialPort(SERIAL_PORT, {
+            baudRate: 9600,
         });
-        printer.on("ready", () => {
+        serialPort.on("open", () => {
+            // PrinterMock allows to run without the printer connected \oo
+            printer = new Printer(serialPort, { 
+                maxPrintingDots: 6,
+                heatingTime: 100,
+                heatingInterval: 3,
+                commandDelay: 10
+            });
+            printer.on("ready", initiatePrint)
+        })
+    }
+        function initiatePrint(){
+            initFormats();
             console.log("Begin", identifier, personalityStrings, extremes, market);
             printer.left()
             printEmptyLines(8)
@@ -73,8 +81,11 @@ module.exports = function({ lang, identifier, personalityStrings, extremes, mark
 					console.log("The end");
 					serialPort.close();
 				});
-        });
+        }
         
+        function initFormats(){
+            printer.inverse(false).big(false).small(true).left();
+        }
         // TODO: patch `printer` to have these functions, maybe prefixed?
         function printTitle(title){
             printer
@@ -112,7 +123,5 @@ module.exports = function({ lang, identifier, personalityStrings, extremes, mark
                 .center()
                 .printLine("")
                 .printImage(sodexo)
-        }
-  
-	});
+    }
 };
