@@ -16,6 +16,10 @@ module.exports = function({ lang, identifier, personalityStrings, extremes, mark
         initiatePrint();
     }
     else{
+        SerialPort.list().then(
+            ports => ports.forEach(console.log),
+            err => console.error(err)
+        )
         serialPort = new SerialPort(SERIAL_PORT, {
             baudRate: 9600,
         });

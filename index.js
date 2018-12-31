@@ -1,16 +1,12 @@
-const print = require('./printer.js')
-var http = require('http');
-const prepareDataForPrinter = require('./dataToPrinterProcessor');
+const print = require('./printer.js'),
+  http = require('http'),
+  prepareDataForPrinter = require('./dataToPrinterProcessor');
 
-// SerialPort.list().then(
-//   ports => ports.forEach(console.log),
-//   err => console.error(err)
-// )
+const PORT = 3001;
 
-const port = process.argv[0] || '/dev/ttyACM0';
 
+console.log(`creating server listening on ${PORT}`)
 http.createServer(function (req, res) {
-  
   console.log('Recebeu a request... ')
 
   let body = '';
@@ -18,7 +14,6 @@ http.createServer(function (req, res) {
   req.on('data', chunk => {
     body += chunk.toString(); // convert Buffer to string
   });
-
   req.on('end', () => {
     console.log('Chegou aqui')
     print(
@@ -31,4 +26,4 @@ http.createServer(function (req, res) {
     res.end('ok');
   });
 
-}).listen(3001, () => console.log('Listening on Port'));
+}).listen(PORT, () => console.log(`Listening on Port ${PORT}`));
