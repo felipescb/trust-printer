@@ -1,6 +1,6 @@
-const print = require('./app.js')
-const SerialPort = require("serialport")
+const print = require('./printer.js')
 var http = require('http');
+const prepareDataForPrinter = require('./dataToPrinterProcessor');
 
 // SerialPort.list().then(
 //   ports => ports.forEach(console.log),
@@ -21,7 +21,11 @@ http.createServer(function (req, res) {
 
   req.on('end', () => {
     console.log('Chegou aqui')
-    print(JSON.parse(body), port);
+    print(
+      prepareDataForPrinter(
+        JSON.parse(body)
+      )
+    );
     res.writeHead(200, { 'Content-Type': 'text/plain' });
     res.write('Hello World!');
     res.end('ok');
