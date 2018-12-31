@@ -4,12 +4,13 @@ const i18n = require('./i18n');
 
 const SERIAL_PORT = '/dev/tty.usbserial-1410';
 
-module.exports = function({ identifier, personalityStrings, extremes, market }) {
+
+module.exports = function({ lang, identifier, personalityStrings, extremes, market }) {
     const serialPort = new SerialPort(SERIAL_PORT, {
         // baudRate: 9600,
         baudRate: 19200,
     });
-	const logo = "cachedRRR.png";
+	const logo = "./cachedRRR.png";
 
     serialPort.on("open", () => {
         var printer = new Printer(serialPort, { 
@@ -23,105 +24,50 @@ module.exports = function({ identifier, personalityStrings, extremes, market }) 
             commandDelay: 10
         });
         printer.on("ready", () => {
-            console.log("Begin");
-            printer
-                .left()
+            console.log("Begin", identifier, personalityStrings, extremes, market);
+            printer.left()
             printEmptyLines(8)
-            printer.printImage(logo)
+            // printer.printImage(logo)
             printEmptyLines(5)
             printer.horizontalLine(33)
             printEmptyLines(40)
+
+            // Intro
             printer
-                .inverse(false)
-                .big(false)
-                .left()
-                .printLine(" www.cached.id ")
-                .inverse(false)
-                .big(false)
-                .left()
-                .printLine(" ")
                 .center()
+                .printLine(" www.cached.id ")
+                .printLine(" ")
+            // Name
+            printer
                 .bold(false)
                 .big(true)
                 .inverse(true)
                 .printLine(" " + identifier + " ")
                 .inverse(false)
-                .printLine(" ")
-                .inverse(true)
-                .big(false)
-                .left()
-                .printLine(i18n.coreTraits[lang])
-                .left()
-                .small(true)
-                .inverse(false)
-            printArray(personalityStrings)
-            printer
-                .printLine("   ")
-                .horizontalLine(33)
-                .printLine("   ")
-                .big(false)
-                .small(true)
-                .bold(true)
-                .left()
-                .inverse(true)
-                .printLine(i18n.extreme[lang])
-                .inverse(false)
-                .big(false)
-                .bold(false)
-                .small(true)
-                .left()
-            printArray(extremes)
-            printer
-                .printLine(" ")
-                .horizontalLine(33)
-                .printLine("   ")         
-                .left()
-                .big(false)
-                .small(true)
-                .bold(true)
-                .inverse(true)
-                .printLine(i18n.likely[lang])
-                .inverse(false)
-                .big(false)
-                .bold(false)
-                .small(true)
-            printArray(market.likely)
-            printer
-                .big(false)
-                .left()
-                .printLine("")
-                .left()
-                .big(false)
-                .small(true)
-                .bold(true)
-                .inverse(true)
-                .printLine(i18n.notLikely[lang])
-                .inverse(false)
-                .big(false)
-                .bold(false)
-                .small(true)
-            printArray(market.notLikely)
-            printer
-                .left()
-                .printLine("")
-                .small(false)
-                .big(false)
-                //.horizontalLine(33)
 
-                .big(false)
-                .left()
+            // Core Traits
+            printTitle(i18n.coreTraits[lang]);
+            printArray(personalityStrings)
+            printer.printLine(" ").horizontalLine(33).printLine(" ")
+            // Extreme Characteristics
+            printTitle(i18n.extreme[lang])
+            printArray(extremes)
+            printer.printLine(" ").horizontalLine(33).printLine("   ")
+            // Market Preferences
+            printTitle(i18n.likely[lang])
+            printArray(market.likely)
+            printTitle(i18n.notLikely[lang])
+            printArray(market.notLikely)
+
+            // End
+            printer
+                .printLine(" ")
                 // .printSodexoDrinks(); 
-                // printer.
                 .small(true)
                 .center()
                 .printLine("Thank you for trusting us.")
-                .left()
-                .small(false)
-                .big(false)
-            printEmptyLines(6)
-            printer
-                .center()
-            printEmptyLines(4)
+            printEmptyLines(10)
+            console.log("Sent all data to the printer")
             printer
 				.print(() => {
 					console.log("The end");
@@ -129,9 +75,19 @@ module.exports = function({ identifier, personalityStrings, extremes, market }) 
 				});
         });
         
+        // TODO: patch `printer` to have these functions, maybe prefixed?
+        function printTitle(title){
+            printer
+                .printLine(' ')
+                .left().big(false).small(true).bold(true)
+                .inverse(true)
+                .printLine(title)
+                .inverse(false)
+                .bold(false)
+        }
         function printEmptyLines(n){
             for (let i = 0; i < n; i++) {
-                printer.printLine('')
+                printer.printLine(' ')
             }
         }
 
