@@ -6,10 +6,10 @@ const SERIAL_PORT = '/dev/tty.usbserial-1410';
 
 module.exports = function({ identifier, personalityStrings, extremes, market }) {
     const serialPort = new SerialPort(SERIAL_PORT, {
-      // baudRate: 9600,
-      baudRate: 19200,
+        // baudRate: 9600,
+        baudRate: 19200,
     });
-	 const logo = "cachedRRR.png";
+	const logo = "cachedRRR.png";
 
     serialPort.on("open", () => {
         var printer = new Printer(serialPort, { 
@@ -54,16 +54,11 @@ module.exports = function({ identifier, personalityStrings, extremes, market }) 
                 .left()
                 .small(true)
                 .inverse(false)
-                .printLine("- " + personalityStrings[0])
-                .printLine("- " + personalityStrings[1])
-                .printLine("- " + personalityStrings[2])
-                .printLine("- " + personalityStrings[3])
-                .printLine("- " + personalityStrings[4])
-                
+            printArray(personalityStrings)
+            printer
                 .printLine("   ")
                 .horizontalLine(33)
                 .printLine("   ")
-
                 .big(false)
                 .small(true)
                 .bold(true)
@@ -75,16 +70,8 @@ module.exports = function({ identifier, personalityStrings, extremes, market }) 
                 .bold(false)
                 .small(true)
                 .left()
-                .printLine(prepareCorePhrase(extremes[0]))
-                .printLine(prepareCorePhrase(extremes[1]))
-                .printLine(prepareCorePhrase(extremes[2]))
-                .printLine(prepareCorePhrase(extremes[3]))
-                .printLine(prepareCorePhrase(extremes[4]))
-                .printLine(prepareCorePhrase(extremes[5]))
-                .printLine(prepareCorePhrase(extremes[6]))
-                .printLine(prepareCorePhrase(extremes[7]))
-                .printLine(prepareCorePhrase(extremes[8]))
-                .printLine(prepareCorePhrase(extremes[9]))
+            printArray(extremes)
+            printer
                 .printLine(" ")
                 .horizontalLine(33)
                 .printLine("   ")         
@@ -98,11 +85,8 @@ module.exports = function({ identifier, personalityStrings, extremes, market }) 
                 .big(false)
                 .bold(false)
                 .small(true)
-                .printLine("- " + market.likely[0])
-                .printLine("- " + market.likely[1])
-                .printLine("- " + market.likely[2])
-                .printLine("- " + market.likely[3])
-                .printLine("- " + market.likely[4])
+            printArray(market.likely)
+            printer
                 .big(false)
                 .left()
                 .printLine("")
@@ -116,11 +100,8 @@ module.exports = function({ identifier, personalityStrings, extremes, market }) 
                 .big(false)
                 .bold(false)
                 .small(true)
-                .printLine("- " + market.notLikely[0])
-                .printLine("- " + market.notLikely[1])
-                .printLine("- " + market.notLikely[2])
-                .printLine("- " + market.notLikely[3])
-                .printLine("- " + market.notLikely[4])
+            printArray(market.notLikely)
+            printer
                 .left()
                 .printLine("")
                 .small(false)
@@ -129,22 +110,8 @@ module.exports = function({ identifier, personalityStrings, extremes, market }) 
 
                 .big(false)
                 .left()
-                 //.printImage(drinks)
-                
-                // .inverse(false)
-                // .big(false)
-                // .left()
-                // .printLine("")
-                // .big(false)
-                // .inverse(false)
-                // .left()
-                // .small(true)
-                // .printLine(i18n.freeDrink01[lang])
-                // .printLine(i18n.freeDrink02[lang])
-                // .printLine(i18n.freeDrink03[lang])
-                //.center()
-                //.printLine("")
-                // .printImage(sodexo)
+                // .printSodexoDrinks(); 
+                // printer.
                 .small(true)
                 .center()
                 .printLine("Thank you for trusting us.")
@@ -168,12 +135,28 @@ module.exports = function({ identifier, personalityStrings, extremes, market }) 
             }
         }
 
-        function prepareCorePhrase(i) {
-            if (lang == "FR") {
-                return "- " + i.facet_normalized_fr + " - " + i.fr_phrase + " - " + String(i.score * 100).substring(0, 4) + "%"
-            } else {
-                return "- " + i.facet_normalized + " - " + +  i.phrase + " - " + String(i.score * 100).substring(0, 4) + "%"
-            }
+        function printArray(arr, preprocess = (in_)=> `- ${in_}`) {
+            arr.forEach((elem) => printer.printLine(preprocess(elem)) )
         }
+
+        function printSodexoDrinks(){
+            printer
+                .printImage(drinks)
+                .inverse(false)
+                .big(false)
+                .left()
+                .printLine("")
+                .big(false)
+                .inverse(false)
+                .left()
+                .small(true)
+                .printLine(i18n.freeDrink01[lang])
+                .printLine(i18n.freeDrink02[lang])
+                .printLine(i18n.freeDrink03[lang])
+                .center()
+                .printLine("")
+                .printImage(sodexo)
+        }
+  
 	});
 };

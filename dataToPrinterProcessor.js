@@ -7,19 +7,12 @@ module.exports = function(data){
   const lang = data.lang.toUpperCase();
   function preparePersonality(personality) {
     return personality.map(p => {
-      const name = ((lang == "FR") ? p.fr_name : p.name);
-      return (
-        name +
-        " - " +
-        String(p.score * 100).substring(0, 4) +
-        "%"
-      );
+      const name = ((lang == "FR") ? p.fr_name : p.name)
+      const score = String(p.score * 100).substring(0, 4)
+      return `${name} - ${score}%`
     });
   }
 
-
-
-  //fuck ...es6
   function normalizeMarketString(string) {
     let removeString;
     if (lang == "FR") {
@@ -56,18 +49,22 @@ module.exports = function(data){
     };
   }
 
+  function prepareCorePhrase(i) {
+    if (lang == "FR") {
+      return i.facet_normalized_fr + " - " + i.fr_phrase + " - " + String(i.score * 100).substring(0, 4) + "%"
+    } else {
+      return + i.facet_normalized + " - " + +  i.phrase + " - " + String(i.score * 100).substring(0, 4) + "%"
+    }
+  }
 
-  var v3EnglishTextSummaries = new PersonalityTextSummaries({
-    locale: "en",
-    version: "v3"
-  });
-  var textSummary = v3EnglishTextSummaries.getSummary(data.raw);
-
-  var personalityStrings = preparePersonality(data.facets);
-
-  var market = prepareMarket(data.marketPreferences);
-
-  var extremes = data.cached;
+  // var v3EnglishTextSummaries = new PersonalityTextSummaries({
+  //   locale: "en",
+  //   version: "v3"
+  // });
+  // const textSummary = v3EnglishTextSummaries.getSummary(data.raw);
+  const personalityStrings = preparePersonality(data.facets);
+  const market = prepareMarket(data.marketPreferences);
+  const extremes = data.cached.map(prepareCorePhrase);
 
   return {
     identifier: data.identifier,
@@ -75,5 +72,4 @@ module.exports = function(data){
     market,
     extremes,
   }
-
 }
