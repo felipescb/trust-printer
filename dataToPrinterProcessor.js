@@ -49,12 +49,14 @@ module.exports = function(data){
     };
   }
 
-  function prepareCorePhrase(i) {
-    if (lang == "FR") {
-      return i.facet_normalized_fr + " - " + i.fr_phrase + " - " + String(i.score * 100).substring(0, 4) + "%"
-    } else {
-      return + i.facet_normalized + " - " + +  i.phrase + " - " + String(i.score * 100).substring(0, 4) + "%"
+  function prepareCorePhrase(elem) {
+    let {phrase, facet_normalized} = elem;
+    const score = String(elem.score * 100).substring(0, 4);
+    if (/fr/i.test(lang)) {
+      facet_normalized = elem.facet_normalized_fr;
+      phrase = elem.fr_phrase
     }
+    return `${facet_normalized} - ${phrase} - ${score}%`
   }
 
   // var v3EnglishTextSummaries = new PersonalityTextSummaries({
@@ -67,6 +69,7 @@ module.exports = function(data){
   const extremes = data.cached.map(prepareCorePhrase);
 
   return {
+    lang,
     identifier: data.identifier,
     personalityStrings,
     market,
