@@ -7,9 +7,9 @@ const i18n = require('./i18n');
 
 const SERIAL_PORT = '/dev/tty.usbserial-1410';
 
+const logo = "./cachedRRR.png";
 
 module.exports = function({ lang, identifier, personalityStrings, extremes, market }) {
-    const logo = "./cachedRRR.png";
     let serialPort, printer;
     if(mocked){
         printer = new PrinterMock()
@@ -36,7 +36,7 @@ module.exports = function({ lang, identifier, personalityStrings, extremes, mark
     }
         function initiatePrint(){
             initFormats();
-            console.log("Begin", identifier, personalityStrings, extremes, market);
+            console.log("Begin", identifier);
             printer.left()
             printEmptyLines(8)
             // printer.printImage(logo)

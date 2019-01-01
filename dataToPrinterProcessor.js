@@ -2,8 +2,6 @@ const { shuffle, flatten } = require('./utils');
 const PersonalityTextSummaries = require("personality-text-summary");
 
 module.exports = function(data){
-  console.log(data)
-
   const lang = data.lang.toUpperCase();
   function preparePersonality(personality) {
     return personality.map(p => {
