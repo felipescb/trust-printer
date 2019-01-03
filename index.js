@@ -5,7 +5,7 @@ prepareDataForPrinter = require('./dataToPrinterProcessor');
 
 const PORT = 3001;
 
-const url = "http://localhost:3000/";
+const url = "http://localhost:3001/";
 var socket = io.connect(url);
 socket.on("print", (data) => printFromJSON(data))
 

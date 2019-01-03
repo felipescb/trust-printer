@@ -7,7 +7,14 @@ const i18n = require('./i18n');
 
 const SERIAL_PORT = '/dev/tty.usbserial-1410';
 
-const logo = "./cachedRRR.png";
+// large logo
+// const logo = "./cachedRRR.png";
+const logo = "./cached_elsewhere.png";
+
+SerialPort.list().then(
+    ports => ports.forEach(console.log),
+    err => console.error(err)
+)
 
 module.exports = function({ lang, identifier, personalityStrings, extremes, market }) {
     let serialPort, printer;
@@ -16,10 +23,6 @@ module.exports = function({ lang, identifier, personalityStrings, extremes, mark
         initiatePrint();
     }
     else{
-        SerialPort.list().then(
-            ports => ports.forEach(console.log),
-            err => console.error(err)
-        )
         serialPort = new SerialPort(SERIAL_PORT, {
             baudRate: 9600,
         });
@@ -39,10 +42,10 @@ module.exports = function({ lang, identifier, personalityStrings, extremes, mark
             console.log("Begin", identifier);
             printer.left()
             printEmptyLines(8)
-            // printer.printImage(logo)
+            printer.printImage(logo)
             printEmptyLines(5)
             printer.horizontalLine(33)
-            printEmptyLines(40)
+            printEmptyLines(3)
 
             // Intro
             printer
