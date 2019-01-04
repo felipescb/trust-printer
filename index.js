@@ -1,11 +1,11 @@
 const io = require('socket.io-client');
-const print = require('./printer.js'),
-http = require('http'),
-prepareDataForPrinter = require('./dataToPrinterProcessor');
+  addToBuffer = require('./printerBuffer'),
+  http = require('http'),
+  prepareDataForPrinter = require('./dataToPrinterProcessor');
 
 const PORT = 3001;
 
-const url = "http://localhost:3001/";
+const url = "http://localhost:3002/";
 var socket = io.connect(url);
 socket.on("print", (data) => printFromJSON(data))
 
@@ -13,16 +13,13 @@ socket.on("print", (data) => printFromJSON(data))
 console.log(`creating server listening on ${PORT}`)
 http.createServer(function (req, res) {
   console.log('Recebeu a request... ')
-  
   let body = '';
-  
   req.on('data', chunk => {
-    // console.log('data', chunk.toString())
     body += chunk.toString(); // convert Buffer to string
   });
   req.on('end', () => {
     try{
-      console.log('Chegou aqui')
+      console.log('Chegou aqui', body)
       printFromJSON(JSON.parse(body));
       res.writeHead(200, { 'Content-Type': 'text/plain' });
       res.write('Hello World!');
@@ -36,7 +33,7 @@ http.createServer(function (req, res) {
 }).listen(PORT, () => console.log(`Listening on Port ${PORT}`));
 
 function printFromJSON(body) {
-  print(
+  addToBuffer(
     prepareDataForPrinter(
       body
     )
