@@ -1,30 +1,41 @@
-const print = require('./app.js')
-const SerialPort = require("serialport")
-var http = require('http');
+const io = require('socket.io-client');
+  addToBuffer = require('./printerBuffer'),
+  http = require('http'),
+  prepareDataForPrinter = require('./dataToPrinterProcessor');
 
-// SerialPort.list().then(
-//   ports => ports.forEach(console.log),
-//   err => console.error(err)
-// )
+const PORT = 3001;
 
-const port = process.argv[0] || '/dev/ttyACM0';
+const url = "http://localhost:3002/";
+var socket = io.connect(url);
+socket.on("print", (data) => printFromJSON(data))
 
+
+console.log(`creating server listening on ${PORT}`)
 http.createServer(function (req, res) {
-  
   console.log('Recebeu a request... ')
-
   let body = '';
-
   req.on('data', chunk => {
     body += chunk.toString(); // convert Buffer to string
   });
-
   req.on('end', () => {
-    console.log('Chegou aqui')
-    print(JSON.parse(body), port);
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.write('Hello World!');
-    res.end('ok');
+    try{
+      console.log('Chegou aqui', body)
+      printFromJSON(JSON.parse(body));
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      res.write('Hello World!');
+      res.end('ok');
+    } catch (error) {
+      res.writeHead(500, { 'Content-Type': 'text/plain' })
+      res.write(error.toString());
+      res.end()
+    }
   });
+}).listen(PORT, () => console.log(`Listening on Port ${PORT}`));
 
-}).listen(3001, () => console.log('Listening on Port'));
+function printFromJSON(body) {
+  addToBuffer(
+    prepareDataForPrinter(
+      body
+    )
+  );
+}
