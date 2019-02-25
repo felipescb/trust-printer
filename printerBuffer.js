@@ -39,15 +39,15 @@ function initializePrinter(callback) {
   else if(!serialPort && !printer){
     console.log('Opening port')
     serialPort = new SerialPort(SERIAL_PORT, {
-      baudRate: 9600,
+      baudRate: 19200,
     });
     serialPort.on("open", () => {
       // PrinterMock allows to run without the printer connected \o/
       printer = new Printer(serialPort, {
         maxPrintingDots: 6,
-        heatingTime: 100,
-        heatingInterval: 3,
-        commandDelay: 10
+        heatingTime: 105,
+        heatingInterval: 6,
+        commandDelay: 50
       });
       printer.on("ready", callback)
     })

@@ -5,11 +5,11 @@ const data = require('./demo_data.json');
 
     const lang = data.lang.toUpperCase();
 
-    const serialPort = new SerialPort('/dev/tty.usbmodem1461', {
+    const serialPort = new SerialPort('/dev/tty.usbmodem14101', {
       baudRate: 19200,
     });
 
-    const logo = "cachedRRR.png",
+    const logo = "cached.png",
         drinks = "drinks_new.png",
         sodexo = "sodexo.png";
 
@@ -111,7 +111,7 @@ const data = require('./demo_data.json');
 
     var cached = data.cached;
 
-    const i18n = { 
+    const i18n = {
       likely: {
         EN: 'You are likely to: ',
         FR: 'Susceptible: ',
@@ -143,88 +143,23 @@ const data = require('./demo_data.json');
     }
 
     serialPort.on("open", () => {
-        var printer = new Printer(serialPort, { 
+        var printer = new Printer(serialPort, {
             // maxPrintingDots: 8,
             // heatingTime: 100,
             // heatingInterval: 3,
             // commandDelay: 3
             maxPrintingDots: 6,
-            heatingTime: 100,
-            heatingInterval: 3,
-            commandDelay: 10
+            heatingTime: 105,
+            heatingInterval: 6,
+            commandDelay: 50
         });
         printer.on("ready", () => {
             console.log("Begin");
             printer
-                .left()
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
                 .printImage(logo)
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .horizontalLine(33)
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .printLine(" ")
-                .inverse(false)
-                .big(false)
-                .left()
-                .printLine("")
-                .inverse(false)
-                .big(false)
-                .left()
-                .printLine("")
-                .center()
-                .bold(false)
                 .big(true)
                 .inverse(true)
+                .center()
                 .printLine(" " + data.identifier + " ")
                 .inverse(false)
                 .printLine(" ")
@@ -240,7 +175,7 @@ const data = require('./demo_data.json');
                 .printLine("- " + personalityStrings[2])
                 .printLine("- " + personalityStrings[3])
                 .printLine("- " + personalityStrings[4])
-                
+
                 .printLine("   ")
                 .horizontalLine(33)
                 .printLine("   ")
@@ -325,7 +260,7 @@ const data = require('./demo_data.json');
                 .big(false)
                 .left()
                 //.printImage(drinks)
-                
+
                 // .inverse(false)
                 // .big(false)
                 // .left()

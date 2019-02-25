@@ -1,9 +1,9 @@
-const SERIAL_PORT = '/dev/tty.usbserial-1410';
+const SERIAL_PORT = '/dev/tty.usbmodem14101';
 
 
 var SerialPort = require('serialport'),
   serialPort = new SerialPort(SERIAL_PORT, {
-    baudRate: 9600,
+    baudRate: 19200,
   }),
   Printer = require('thermalprinter');
 
