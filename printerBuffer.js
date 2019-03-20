@@ -3,7 +3,7 @@ const printFormatted = require('./printer.js');
 const SerialPort = require("serialport");
 const Printer = require("thermalprinter");
 const PrinterMock = require('./printer-mock.js');
-const SERIAL_PORT = '/dev/tty.usbserial-1420';
+const SERIAL_PORT = '/dev/ttyACM0';
 let buffer = []
 let printing = false
 
@@ -45,9 +45,9 @@ function initializePrinter(callback) {
       // PrinterMock allows to run without the printer connected \o/
       printer = new Printer(serialPort, {
         maxPrintingDots: 6,
-        heatingTime: 105,
-        heatingInterval: 6,
-        commandDelay: 50
+        heatingTime: 110,
+        heatingInterval: 5,
+        commandDelay: 10
       });
       printer.on("ready", callback)
     })

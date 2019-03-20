@@ -5,7 +5,7 @@ const io = require('socket.io-client');
 
 const PORT = 3001;
 
-const url = "https://ws.cached.id/";
+const url = "https://web.cached.id/";
 var socket = io.connect(url);
 socket.on("print", (data) => printFromJSON(data))
 socket.on("connect", (s) => console.log("Websocket Plugged"))

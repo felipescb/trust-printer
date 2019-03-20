@@ -1,59 +1,73 @@
 
 const i18n = require('./i18n');
 
-
-// large logo
-// const logo = "./cachedRRR.png";
-const logo = "./cached_elsewhere.png";
+const logo = "/home/cachedv2/Desktop/Cached/printer/cached.png";
 
 module.exports = function({ lang, identifier, personalityStrings, extremes, market }, printer, callback) {
     initFormats();
     console.log("Start of printing instructions for ", identifier);
-    printer.left()
-    printEmptyLines(8)
-    printer.printImage(logo)
     printEmptyLines(5)
-    printer.horizontalLine(33)
-    printEmptyLines(3)
-    
-    // Intro
+    printer.printImage(logo)
+
+/*    // Intro
     printer
         .center()
         // .big(true)
-        .printLine(" www.cached.id ")
+        .printLine("www.cached.id")
         // .big(false)
         .printLine(" ")
-    
+*/
+
         // Name
     printer
+        .center()
         .bold(false)
         .big(true)
         .inverse(true)
         .printLine(" " + identifier + " ")
-        .inverse(false);
-    
+        .inverse(false)
+        .big(false)
+
     // Core Traits
+    printer.printLine(" ").horizontalLine(33)
     printTitle(i18n.coreTraits[lang]);
+    printer.
+        small(true);
     printArray(personalityStrings)
-    printer.printLine(" ").horizontalLine(33).printLine(" ")
+    printer.
+        small(false);
+    printer.printLine(" ").horizontalLine(33)
     // Extreme Characteristics
     printTitle(i18n.extreme[lang])
+    printer.
+        small(true);
     printArray(extremes)
-    printer.printLine(" ").horizontalLine(33).printLine("   ")
+    printer.
+        small(false);
+    printer.printLine(" ").horizontalLine(33)
     // Market Preferences
     printTitle(i18n.likely[lang])
+    printer.
+        small(true);
     printArray(market.likely)
+    printer.
+        small(false);
     printTitle(i18n.notLikely[lang])
+    printer.
+        small(true);
     printArray(market.notLikely)
-    
+    printer.
+        small(false);
+
     // End
     printer
         .printLine(" ")
-        // .printSodexoDrinks(); 
+        .printLine(" ")
+        // .printSodexoDrinks();
         .small(true)
         .center()
         .printLine("Thank you for trusting us.")
-        printEmptyLines(10)
+        printEmptyLines(8)
 
     function initFormats(){
         printer.inverse(false).big(false).small(true).left();

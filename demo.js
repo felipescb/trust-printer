@@ -5,7 +5,7 @@ const data = require('./demo_data.json');
 
     const lang = data.lang.toUpperCase();
 
-    const serialPort = new SerialPort('/dev/tty.usbmodem14101', {
+    const serialPort = new SerialPort('/dev/ttyACM0', {
       baudRate: 19200,
     });
 
