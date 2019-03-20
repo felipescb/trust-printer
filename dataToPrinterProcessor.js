@@ -54,7 +54,7 @@ module.exports = function(data){
       facet_normalized = elem.facet_normalized_fr;
       phrase = elem.fr_phrase
     }
-    return `${facet_normalized} - ${phrase} - ${score}%`
+    return `${facet_normalized} (${score}%) - ${phrase}`
   }
 
   // var v3EnglishTextSummaries = new PersonalityTextSummaries({
