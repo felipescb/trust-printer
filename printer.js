@@ -1,9 +1,9 @@
 
 const i18n = require('./i18n');
 
-const logo = "/home/cachedv2/Desktop/Cached/printer/cached.png";
+const logo = "./cached.png";
 
-module.exports = function({ lang, identifier, personalityStrings, extremes, market }, printer, callback) {
+module.exports = function({ lang, identifier, personalityStrings, extremes, needs, values, market }, printer, callback) {
     initFormats();
     console.log("Start of printing instructions for ", identifier);
     printEmptyLines(5)
@@ -42,6 +42,22 @@ module.exports = function({ lang, identifier, personalityStrings, extremes, mark
     printer.
         small(true);
     printArray(extremes)
+    printer.
+        small(false);
+    printer.printLine(" ").horizontalLine(33)
+    //needs
+    printTitle(i18n.needs[lang])
+    printer.
+        small(true);
+    printArray(needs)
+    printer.
+        small(false);
+    printer.printLine(" ").horizontalLine(33)
+    //values
+    printTitle(i18n.values[lang])
+    printer.
+        small(true);
+    printArray(values)
     printer.
         small(false);
     printer.printLine(" ").horizontalLine(33)

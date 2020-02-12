@@ -3,7 +3,7 @@ const printFormatted = require('./printer.js');
 const SerialPort = require("serialport");
 const Printer = require("thermalprinter");
 const PrinterMock = require('./printer-mock.js');
-const SERIAL_PORT = '/dev/ttyACM0';
+const SERIAL_PORT = 'COM7';
 let buffer = []
 let printing = false
 
@@ -31,6 +31,7 @@ module.exports = function(data){
     }
   }
 }
+
 function initializePrinter(callback) {
   if (mocked) {
     printer = new PrinterMock()

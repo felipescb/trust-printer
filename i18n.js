@@ -27,4 +27,12 @@ module.exports = {
     EN: 'Extreme Characteristics: ',
     FR: 'Caractéristiques extremes: '
   },
+  needs: {
+    EN: 'Needs: ',
+    FR: 'Besoins: '
+  },
+  values: {
+    EN: 'Values: ',
+    FR: 'Valeurs: '
+  }
 }

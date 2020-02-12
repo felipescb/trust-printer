@@ -1,8 +1,12 @@
 const { shuffle, flatten } = require('./utils');
 const PersonalityTextSummaries = require("personality-text-summary");
 
+const traitsExplanationsEN = require('./maps/traits_explanation_en.js');
+const traitsExplanationsFR = require('./maps/traits_explanation_fr.js');
+
 module.exports = function(data){
   const lang = data.lang.toUpperCase();
+  
   function preparePersonality(personality) {
     return personality.map(p => {
       const name = ((lang == "FR") ? p.fr_name : p.name)
@@ -57,14 +61,49 @@ module.exports = function(data){
     return `${facet_normalized} (${score}%) - ${phrase}`
   }
 
-  // var v3EnglishTextSummaries = new PersonalityTextSummaries({
-  //   locale: "en",
-  //   version: "v3"
-  // });
-  // const textSummary = v3EnglishTextSummaries.getSummary(data.raw);
+  function prepareNeeds(elem) {
+    let id = elem.id;
+    const score = String(elem.percentage * 100).substring(0, 4); 
+
+    id = id.toLowerCase();
+    id = id.replace(/need_/g, '');
+    id = id.replace(/_/g, '-');
+
+    let traitsExplanationsMappings;
+    if (lang == 'FR') {
+      traitsExplanationsMappings = traitsExplanationsFR;
+    }  else {
+      traitsExplanationsMappings = traitsExplanationsEN;
+    }   
+
+    id = traitsExplanationsMappings[id];
+    return `${id.title} - ${score}%`
+  }
+
+  function prepareValues(elem) {
+    let id = elem.id;
+    const score = String(elem.percentage * 100).substring(0, 4); 
+
+    id = id.toLowerCase();
+    id = id.replace(/value_/g, '');
+    id = id.replace(/_/g, '-');
+
+    let traitsExplanationsMappings;
+    if (lang == 'FR') {
+      traitsExplanationsMappings = traitsExplanationsFR;
+    }  else {
+      traitsExplanationsMappings = traitsExplanationsEN;
+    }   
+
+    id = traitsExplanationsMappings[id];
+    return `${id.title} - ${score}%`
+  }
+
   const personalityStrings = preparePersonality(data.facets);
   const market = prepareMarket(data.marketPreferences);
   const extremes = data.cached.map(prepareCorePhrase);
+  const needs = data.needs.map(prepareNeeds);
+  const values = data.values.map(prepareValues);
 
   return {
     lang,
@@ -72,5 +111,7 @@ module.exports = function(data){
     personalityStrings,
     market,
     extremes,
+    needs,
+    values,
   }
 }
